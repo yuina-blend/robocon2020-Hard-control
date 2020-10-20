@@ -57,6 +57,9 @@ class HCSR04 {
     void fall(void (*fptr)(void));
     void rise(void (*fptr)(void));
 
+    int temp;
+    void set_temp(int temp);
+
   private:
     Timer pulsetime;
     DigitalOut trigger;

@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-#include "HCSR04.h"
+#include "hcsr04.h"
 
 HCSR04::HCSR04(PinName TrigPin, PinName EchoPin)
     : trigger(TrigPin), echo(EchoPin) {
@@ -29,6 +29,7 @@ HCSR04::HCSR04(PinName TrigPin, PinName EchoPin)
     echo.rise(this, &HCSR04::isr_rise);
     echo.fall(this, &HCSR04::isr_fall);
     trigger = 0;
+    temp = 20;
 }
 
 HCSR04::~HCSR04() {}
@@ -40,10 +41,12 @@ void HCSR04::start(void) {
     trigger = 0;
 }
 
+void HCSR04::set_temp(int temp) { this->temp = temp; }
+
 void HCSR04::isr_fall(void) {
     pulsetime.stop();
     pulsedur = pulsetime.read_us();
-    distance = (pulsedur * 343) / 20000;
+    distance = (pulsedur * (331.5 + temp * 0.6) / 20000);
     pulsetime.reset();
 }
 

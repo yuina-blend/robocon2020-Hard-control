@@ -86,6 +86,7 @@ int main() {
     bool state = true;
     wait_ms(100);
     power = false;
+
     raspi.attach(&serial_received, Serial::RxIrq);
     while(true) {
         if(serial_received_data == 'A') {
@@ -110,7 +111,7 @@ int main() {
                     }
                 }
                 dist = ultrasonic_sensor.get_dist_cm();
-                if(dist > 5) {
+                if(dist <= 5) {
                     count++;
                 }
                 wait_ms(100);
