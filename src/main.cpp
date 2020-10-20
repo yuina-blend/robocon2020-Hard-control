@@ -91,9 +91,8 @@ int main() {
     while(true) {
         if(serial_received_data == 'A') {
             leds[1] = true;
-            for(int i = 0; i < sizeof(moters) / sizeof(moters[0]); i++) {
-                moters[i].forword(100);
-            }
+            moters[0].back(100);
+            moters[1].forword(100);
             for(int i = 0; i < sizeof(led_sticks) / sizeof(led_sticks[0]);
                 i++) {
                 led_sticks[i] = true;
