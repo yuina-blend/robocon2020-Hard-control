@@ -67,7 +67,7 @@ DigitalIn button(D8);
 DigitalIn fuck(USER_BUTTON);
 //スイッチは超音波に変える(HC-sr04?)
 DigitalOut led_sticks[2] = {DigitalOut(D9), DigitalOut(D10)};
-HCSR04 ultrasonic_sensor(D0, D1);
+HCSR04 ultrasonic_sensor(D0, D1);   //pinは現在適当
 BlackMD moters[2] = {BlackMD(D14, D15, 0x14), BlackMD(D14, D15, 0x16)};
 Led_matrix eye[2] = {Led_matrix(D14, D15, 0x10), Led_matrix(D14, D15, 0x12)};
 
@@ -95,7 +95,7 @@ int main() {
                 i++) {
                 led_sticks[i] = true;
             }
-            while(fuck) {
+            while(ultrasonic_sensor.get_dist_cm() < 5) {
                 state = !state;
                 if(state) {
                     for(int i = 0; i < sizeof(eye) / sizeof(eye[0]); i++) {
@@ -106,7 +106,8 @@ int main() {
                         eye[i].change_to_batsu();
                     }
                 }
-                wait_ms(300);
+                wait_ms(500);
+                raspi.printf("dist: %d\n", ultrasonic_sensor.get_dist_cm());
             }
             raspi.printf("pushed");
             leds[2] = true;
