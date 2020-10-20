@@ -67,7 +67,7 @@ DigitalIn button(D8);
 DigitalIn fuck(USER_BUTTON);
 //スイッチは超音波に変える(HC-sr04?)
 DigitalOut led_sticks[2] = {DigitalOut(D9), DigitalOut(D10)};
-HCSR04 ultrasonic_sensor(D0, D1);   //pinは現在適当
+HCSR04 ultrasonic_sensor(D11, D12);   //pinは現在適当
 BlackMD moters[2] = {BlackMD(D14, D15, 0x14), BlackMD(D14, D15, 0x16)};
 Led_matrix eye[2] = {Led_matrix(D14, D15, 0x10), Led_matrix(D14, D15, 0x12)};
 
@@ -79,6 +79,7 @@ void serial_received() {
 }
 
 int main() {
+    ultrasonic_sensor.start();
     leds[0] = true;
     //  leds[1] = true;
     bool state = true;
