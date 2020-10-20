@@ -115,7 +115,8 @@ int main() {
                     count++;
                 }
                 wait_ms(100);
-                raspi.printf("dist: %d\n", ultrasonic_sensor.get_dist_cm());
+                //                raspi.printf("dist: %d\n",
+                //                ultrasonic_sensor.get_dist_cm());
             } while(count < 10);
             raspi.putc('P');
             leds[2] = true;
@@ -127,5 +128,7 @@ int main() {
                 led_sticks[i] = false;
             }
         }
+        if(count >= 10)
+            break;
     }
 }
