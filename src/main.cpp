@@ -67,7 +67,7 @@ DigitalIn button(D8);
 DigitalIn fuck(USER_BUTTON);
 //スイッチは超音波に変える(HC-sr04?)
 DigitalOut led_sticks[2] = {DigitalOut(D9), DigitalOut(D10)};
-HCSR04 ultrasonic_sensor(D11, D12);   //pinは現在適当
+HCSR04 ultrasonic_sensor(D11, D12); // pinは現在適当
 BlackMD moters[2] = {BlackMD(D14, D15, 0x14), BlackMD(D14, D15, 0x16)};
 Led_matrix eye[2] = {Led_matrix(D14, D15, 0x10), Led_matrix(D14, D15, 0x12)};
 
@@ -79,8 +79,9 @@ void serial_received() {
 }
 
 int main() {
-    ultrasonic_sensor.start();
     leds[0] = true;
+    unsigned int dist = 1000;
+    unsigned int count = 0;
     //  leds[1] = true;
     bool state = true;
     wait_ms(100);
@@ -96,7 +97,8 @@ int main() {
                 i++) {
                 led_sticks[i] = true;
             }
-            while(ultrasonic_sensor.get_dist_cm() < 5) {
+            do {
+                ultrasonic_sensor.start();
                 state = !state;
                 if(state) {
                     for(int i = 0; i < sizeof(eye) / sizeof(eye[0]); i++) {
@@ -107,10 +109,14 @@ int main() {
                         eye[i].change_to_batsu();
                     }
                 }
-                wait_ms(500);
+                dist = ultrasonic_sensor.get_dist_cm();
+                if(dist > 5) {
+                    count++;
+                }
+                wait_ms(100);
                 raspi.printf("dist: %d\n", ultrasonic_sensor.get_dist_cm());
-            }
-            raspi.printf("pushed");
+            } while(count < 10);
+            raspi.putc('P');
             leds[2] = true;
             for(int i = 0; i < sizeof(moters) / sizeof(moters[0]); i++) {
                 moters[i].short_brake();
