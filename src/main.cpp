@@ -1,7 +1,7 @@
 #include "mbed.h"
+#include <HCSR04.h>
 
 void serial_received();
-// void i2c_send(int i2c_address, int i2c_data);
 
 class BlackMD {
   private:
@@ -67,9 +67,8 @@ DigitalIn button(D8);
 DigitalIn fuck(USER_BUTTON);
 //スイッチは超音波に変える(HC-sr04?)
 DigitalOut led_sticks[2] = {DigitalOut(D9), DigitalOut(D10)};
-
+HCSR04 ultrasonic_sensor(D0, D1);
 BlackMD moters[2] = {BlackMD(D14, D15, 0x14), BlackMD(D14, D15, 0x16)};
-
 Led_matrix eye[2] = {Led_matrix(D14, D15, 0x10), Led_matrix(D14, D15, 0x12)};
 
 char serial_received_data = 'X';
