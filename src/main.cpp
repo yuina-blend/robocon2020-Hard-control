@@ -79,6 +79,8 @@ void serial_received() {
 }
 
 int main() {
+    moters[0].short_brake();
+    moters[1].short_brake();
     leds[0] = true;
     unsigned int dist = 1000;
     unsigned int count = 0;
