@@ -119,7 +119,9 @@ int main() {
                 //                raspi.printf("dist: %d\n",
                 //                ultrasonic_sensor.get_dist_cm());
             } while(count < 10);
-            raspi.putc('P');
+            for (int i = 0; i < 10; i++) {
+                raspi.putc('P');
+            }
             leds[2] = true;
             for(int i = 0; i < sizeof(moters) / sizeof(moters[0]); i++) {
                 moters[i].short_brake();
