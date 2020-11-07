@@ -79,6 +79,8 @@ void serial_received() {
 }
 
 int main() {
+    moters[0].short_brake();
+    moters[1].short_brake();
     leds[0] = true;
     unsigned int dist = 1000;
     unsigned int count = 0;
@@ -91,8 +93,8 @@ int main() {
     while(true) {
         if(serial_received_data == 'A') {
             leds[1] = true;
-            moters[0].back(100);
-            moters[1].forword(100);
+            moters[0].back(50);
+            moters[1].forword(50);
             for(int i = 0; i < sizeof(led_sticks) / sizeof(led_sticks[0]);
                 i++) {
                 led_sticks[i] = true;
@@ -126,7 +128,9 @@ int main() {
                 //                raspi.printf("dist: %d\n",
                 //                ultrasonic_sensor.get_dist_cm());
             } while(count < 10);
-            raspi.putc('P');
+            for (int i = 0; i < 4; i++) {
+                raspi.putc('P');
+            }
             leds[2] = true;
             for(int i = 0; i < sizeof(moters) / sizeof(moters[0]); i++) {
                 moters[i].short_brake();
