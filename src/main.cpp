@@ -99,12 +99,21 @@ int main() {
             }
             do {
                 ultrasonic_sensor.start();
-                state = !state;
-                if(state) {
+                // state = !state;
+                // if(state) {
+                //     for(int i = 0; i < sizeof(eye) / sizeof(eye[0]); i++) {
+                //         eye[i].change_to_maru();
+                //     }
+                // } else {
+                //     for(int i = 0; i < sizeof(eye) / sizeof(eye[0]); i++) {
+                //         eye[i].change_to_batsu();
+                //     }
+                // }
+                if(serial_received_data == 'F') {
                     for(int i = 0; i < sizeof(eye) / sizeof(eye[0]); i++) {
                         eye[i].change_to_maru();
                     }
-                } else {
+                } else if (serial_received_data == 'S') {
                     for(int i = 0; i < sizeof(eye) / sizeof(eye[0]); i++) {
                         eye[i].change_to_batsu();
                     }
